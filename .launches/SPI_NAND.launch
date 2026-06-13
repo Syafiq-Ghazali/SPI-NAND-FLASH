@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.ti.ccstudio.debug.launchType.device.debugging">
+    <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.TMS320F280039C_LaunchPad.ccxml.Texas Instruments XDS110 USB Debug Probe_0/C28xx_CPU1" value="${build_artifact:SPI_NAND}"/>
+    <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.TMS320F280039C_LaunchPad.ccxml.Texas Instruments XDS110 USB Debug Probe_0/C28xx_CPU1" value="SPI_NAND"/>
+    <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:SPI_NAND}"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/SPI_NAND"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+</launchConfiguration>
