@@ -74,7 +74,7 @@
                                     <listOptionValue value="${PROJECT_ROOT}/BSW/DGPIO"/>
                                     <listOptionValue value="${PROJECT_ROOT}/BSW/DMCU"/>
                                     <listOptionValue value="${PROJECT_ROOT}/BSW/DSPI"/>
-                                    <listOptionValue value="${PROJECT_ROOT}/MSW/SPI_NAND"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/MSW/W25N01GVSFIG"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.ADVICE__PERFORMANCE.6500017" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.ADVICE__PERFORMANCE" value="--advice:performance=all" valueType="string"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEFINE.1622948797" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEFINE" valueType="definedSymbols">

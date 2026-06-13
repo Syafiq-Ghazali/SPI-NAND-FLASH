@@ -33,8 +33,8 @@
 #define BRD_GPIO_SPIA_CLK_GPIO           (18u)
 #define BRD_GPIO_SPIA_CLK                ((Uint32_t)GPIO_18_SPIA_CLK)
 
-#define BRD_GPIO_SPI_NAND_CS_GPIO        (19u)
-#define BRD_GPIO_SPI_NAND_CS             ((Uint32_t)GPIO_19_GPIO19)
+#define BRD_GPIO_W25N01GVSFIG_CS_GPIO    (19u)
+#define BRD_GPIO_W25N01GVSFIG_CS         ((Uint32_t)GPIO_19_GPIO19)
 
 /*=== ENUMERATIONS ===========================================================*/
 
@@ -43,7 +43,7 @@ typedef enum GpioInstance_t
     GPIO_INSTANCE_SPIA_SIMO,
     GPIO_INSTANCE_SPIA_SOMI,
     GPIO_INSTANCE_SPIA_CLK,
-    GPIO_INSTANCE_SPI_NAND_CS,
+    GPIO_INSTANCE_W25N01GVSFIG_CS,
     GPIO_INSTANCE_COUNT
 } GpioInstance_t;
 

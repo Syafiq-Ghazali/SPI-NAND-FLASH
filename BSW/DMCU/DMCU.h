@@ -34,7 +34,7 @@
  * This parameter __needs__ to be defined, or else you will get a preprocessor
  * error (see the check below).
  */
-#define MCU_OSCSRC_FREQ                            (12000000U)
+#define MCU_OSCSRC_FREQ                            (20000000U)
 
 #ifndef MCU_OSCSRC_FREQ
 #error "[DMCU] MCU_OSCSRC_FREQ is not defined. This must be defined to the frequency of the internal oscillator, in Hz."
@@ -43,12 +43,12 @@
 #define MCU_UNKNOWN_ERROR_DELAY_TIME               (50000u)
 #define MCU_FATAL_ERROR_DELAY_TIME                 (500000u)
 
-#define MCU_SETCLOCK_CFG                           (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(80) | \
+#define MCU_SETCLOCK_CFG                           (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(48) | \
                                                     SYSCTL_REFDIV(2) | SYSCTL_ODIV(4) |     \
                                                     SYSCTL_SYSDIV(1) | SYSCTL_PLL_ENABLE |  \
                                                     SYSCTL_DCC_BASE_0)
                           
-#define MCU_SYSCLK_FREQ                           ((Uint32_t)((MCU_OSCSRC_FREQ * 80) / (2 * 4 * 1)))
+#define MCU_SYSCLK_FREQ                           ((Uint32_t)((MCU_OSCSRC_FREQ * 48) / (2 * 4 * 1)))
 
 #define MCU_LSPCLK_FREQ                           ((Uint32_t)MCU_SYSCLK_FREQ / 2)
 

@@ -1,26 +1,26 @@
 /*
 |===============================================================================
 |
-| File:         BRD_SPI_NAND.h
+| File:         BRD_W25N01GVSFIG.h
 |
 | Project:      SPI_NAND
 |
 | Processor:    TI TMS320F28003x
 |
-| Description:  Board configuration for the SPI NAND MSW module.
+| Description:  Board configuration for the W25N01GVSFIG MSW module.
 |
 |=============================================================================*/
 
-#ifndef BRD_SPI_NAND_H
-#define BRD_SPI_NAND_H
+#ifndef BRD_W25N01GVSFIG_H
+#define BRD_W25N01GVSFIG_H
 
 /*=== INCLUDE FILES ==========================================================*/
 
-#include "SPI_NAND.h"
+#include "W25N01GVSFIG.h"
 
 /*=== EXTERNAL VARIABLE DEFINITIONS ==========================================*/
 
-extern SpiNandHandle_t BRD_SPI_NAND_HANDLE;
-extern const SpiNandConfig_t BRD_SPI_NAND_CONFIG;
+extern W25N01GVSFIGHandle_t BRD_W25N01GVSFIG_HANDLE;
+extern const W25N01GVSFIGConfig_t BRD_W25N01GVSFIG_CONFIG;
 
-#endif /* BRD_SPI_NAND_H */
+#endif /* BRD_W25N01GVSFIG_H */

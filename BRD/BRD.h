@@ -19,7 +19,7 @@
 #include "BRD_GPIO.h"
 #include "BRD_MCU.h"
 #include "BRD_SPI.h"
-#include "BRD_SPI_NAND.h"
+#include "BRD_W25N01GVSFIG.h"
 
 /*=== EXTERNAL FUNCTION PROTOTYPES ===========================================*/
 
