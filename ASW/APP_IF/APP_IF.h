@@ -4,7 +4,6 @@
 #include "W25N01GVSFIG.h"
 
 #define APP_IF_MAX_PAYLOAD       (2054u)
-#define APP_IF_RX_TIMEOUT_US     (1000000uL)
 
 typedef enum AppIfCommand_t
 {
@@ -19,8 +18,7 @@ typedef enum AppIfCommand_t
 typedef Bool_t (*AppIfSend_t)(Uint16_t octet);
 
 void APP_IF_init(W25N01GVSFIGHandle_t *nand, AppIfSend_t send);
-void APP_IF_receive(Uint16_t octet, Uint32_t nowUs);
-void APP_IF_poll(Uint32_t nowUs);
+void APP_IF_receive(Uint16_t octet);
 void APP_IF_reset(void);
 
 #endif

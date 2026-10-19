@@ -64,8 +64,8 @@ class AppIfTests(unittest.TestCase):
             raise
         signatures = {
             "test_init": ([], None),
-            "test_receive": ([ctypes.c_uint16, ctypes.c_uint32], None),
-            "test_poll": ([ctypes.c_uint32], None),
+            "test_receive": ([ctypes.c_uint16], None),
+            "test_reset": ([], None),
             "test_status": ([ctypes.c_uint16], None),
             "test_send_limit": ([ctypes.c_uint16], None),
             "test_calls": ([], ctypes.c_uint16),
@@ -88,12 +88,10 @@ class AppIfTests(unittest.TestCase):
 
     def setUp(self):
         self.library.test_init()
-        self.now = 0
 
     def send(self, data):
         for octet in data:
-            self.now = (self.now + 100) & 0xFFFFFFFF
-            self.library.test_receive(octet, self.now)
+            self.library.test_receive(octet)
 
     def response(self, command, payload):
         actual = bytes(self.library.test_output(index)
@@ -179,21 +177,19 @@ class AppIfTests(unittest.TestCase):
         self.assertEqual(actual, first + frame(4, b"\x00"))
         self.assertEqual(self.library.test_calls(), 1)
 
-    def test_incomplete_frame_timeout_including_clock_wrap(self):
-        self.now = 0xFFFF0000
+    def test_incomplete_frame_is_discarded_by_reset(self):
         self.send(frame(3, struct.pack("<IH", 0, 0) + b"x" * 512)[:20])
         self.assertEqual(self.library.test_calls(), 0)
-        self.now = (self.now + 1_000_000) & 0xFFFFFFFF
-        self.library.test_poll(self.now)
+        self.library.test_reset()
         self.send(frame(1))
         self.assertEqual(self.library.test_calls(), 1)
         self.assertEqual(self.library.test_output(2), 1)
 
-    def test_oversize_discards_embedded_commands_until_idle(self):
+    def test_oversize_discards_embedded_commands_until_reset(self):
         self.send(b"\xa5\x5a\x03\xff\xff" + frame(4, b"\x00\x00"))
         self.assertEqual(self.library.test_calls(), 0)
         self.assertEqual(self.library.test_output_length(), 0)
-        self.now += 1_000_000
+        self.library.test_reset()
         self.send(frame(4, b"\x0c\x00"))
         self.response(4, b"\x00")
         self.assertEqual(self.library.test_calls(), 1)

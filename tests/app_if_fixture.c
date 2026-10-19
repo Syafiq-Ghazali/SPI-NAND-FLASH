@@ -38,12 +38,12 @@ TEST_API void test_init(void)
     APP_IF_init(&F_handle, F_capture);
 }
 
-TEST_API void test_receive(Uint16_t octet, Uint32_t nowUs)
+TEST_API void test_receive(Uint16_t octet)
 {
-    APP_IF_receive(octet, nowUs);
+    APP_IF_receive(octet);
 }
 
-TEST_API void test_poll(Uint32_t nowUs) { APP_IF_poll(nowUs); }
+TEST_API void test_reset(void) { APP_IF_reset(); }
 TEST_API void test_status(Uint16_t status) { F_status = status; }
 TEST_API void test_send_limit(Uint16_t limit) { F_sendLimit = limit; }
 TEST_API Uint16_t test_calls(void) { return F_calls; }

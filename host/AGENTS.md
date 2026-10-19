@@ -8,8 +8,15 @@ Follow the repository's [AGENTS.md](../AGENTS.md).
 - Firmware has one application module, `ASW/APP_IF`, which decodes requests,
   dispatches directly to the NAND driver, and encodes responses. Do not introduce
   a separate flash service layer without a concrete need.
-- `ASW/MAIN` initializes the board and NAND, then polls the SCI transport.
-- The serial default is SCI-A, 115200 baud, 8N1, RX GPIO28 and TX GPIO29.
+- `ASW/MAIN` initializes the board and NAND, then polls the UART interface.
+- UART is the primary host connection. TI calls this peripheral SCI; its planned
+  settings are SCI-A, 115200 baud, 8N1, RX GPIO28 and TX GPIO29.
+- `BSW/DSCI` exposes only receive and send stubs. Both return `TRUE`; receive
+  reports no data. There is no UART initialization function or clock helper.
+  No hardware is accessed by these stubs. Keep them
+  unimplemented until the user requests the actual UART driver.
+- The decoder has no automatic frame timeout. Interrupted or oversized frames
+  require an explicit parser reset or MCU reset before a fresh exchange.
 - Exactly five commands exist: INFO, READ_PAGE, PROGRAM_PAGE, ERASE_BLOCK,
   IS_BAD_BLOCK. Keep this command set minimal.
 - The shared wire contract is [PROTOCOL.md](../ASW/APP_IF/PROTOCOL.md).

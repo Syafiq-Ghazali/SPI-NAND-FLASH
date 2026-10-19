@@ -25,7 +25,6 @@ static Uint16_t F_length;
 static Uint16_t F_received;
 static Uint16_t F_crc;
 static Uint16_t F_receivedCrc;
-static Uint32_t F_lastByteUs;
 static Uint16_t F_payload[APP_IF_MAX_PAYLOAD];
 static Uint16_t F_response[W25N01GVSFIG_PAGE_DATA_SIZE + 1u];
 
@@ -204,19 +203,8 @@ void APP_IF_init(W25N01GVSFIGHandle_t *nand, AppIfSend_t send)
     APP_IF_reset();
 }
 
-void APP_IF_poll(Uint32_t nowUs)
+void APP_IF_receive(Uint16_t octet)
 {
-    if ((F_state != RX_START) &&
-        ((Uint32_t)(nowUs - F_lastByteUs) >= APP_IF_RX_TIMEOUT_US))
-    {
-        APP_IF_reset();
-    }
-}
-
-void APP_IF_receive(Uint16_t octet, Uint32_t nowUs)
-{
-    APP_IF_poll(nowUs);
-    F_lastByteUs = nowUs;
     octet &= 0xFFu;
 
     switch (F_state)
@@ -244,7 +232,7 @@ void APP_IF_receive(Uint16_t octet, Uint32_t nowUs)
             F_length |= (Uint16_t)(octet << 8u);
             if (F_length > APP_IF_MAX_PAYLOAD)
             {
-                /* Ignore the rest until an idle gap; it may contain START bytes. */
+                /* Ignore the rest until reset; it may contain START bytes. */
                 F_state = RX_DISCARD;
                 return;
             }

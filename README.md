@@ -4,9 +4,11 @@ Winbond W25N01GVSFIG driver for the TI TMS320F280039C.
 Provides initialization, identification, page reads/programming, block erase,
 and ECC/bad-block status handling. Hardware validation is still required.
 
-The application initializes the board and NAND, then handles five serial commands
-in one module. The [Python application folder](host/README.md) contains guidance;
-the client library and CLI are not yet implemented.
+The application initializes the board and NAND and includes a five-command decoder
+in one module. UART is the primary host connection, but its receive and send
+functions are currently stubs: no serial communication takes place. The
+[Python application folder](host/README.md) contains guidance; the client library
+and CLI are not yet implemented.
 
 ## Build
 
@@ -24,10 +26,16 @@ Set pins in [BRD_GPIO.h](BRD/BRD_GPIO.h), SPI settings in
 [BRD_SPI.c](BRD/BRD_SPI.c), and NAND configuration in
 [BRD_W25N01GVSFIG.c](BRD/BRD_W25N01GVSFIG.c).
 
-Serial defaults: SCI-A at 115200 baud, 8N1, RX GPIO28 and TX GPIO29. Pins are
-configured in `BRD_GPIO.h`; serial and timer settings are in
-[BRD_SCI.c](BRD/BRD_SCI.c). The transport owns CPU timer 0 at 1 MHz.
-Confirm routing on the actual board before connecting.
+Planned UART defaults: SCI-A at 115200 baud, 8N1, RX GPIO28 and TX GPIO29.
+Pin definitions are in `BRD_GPIO.h`; proposed serial settings are in
+[BRD_SCI.c](BRD/BRD_SCI.c). These UART settings are not applied by the stubs.
+
+The [UART interface](BSW/DSCI/DSCI.h) currently provides:
+
+| Function | Intended responsibility | Stub behavior |
+| --- | --- | --- |
+| `DSCI_receive` | Poll one octet; separate success from data availability | Returns `TRUE`, sets `received` to `FALSE` |
+| `DSCI_send` | Send one octet and report success | Returns `TRUE`, discards data |
 
 ## Serial commands
 
@@ -60,4 +68,6 @@ python -m unittest discover -s tests -v
 Tests compile the C application against mocked NAND operations using a native
 C compiler (GCC/Clang or Visual Studio C tools). They cover frame integrity,
 dispatch, payload bounds, driver results, and interrupted-message recovery.
-Serial timing, pin routing, and NAND operations still require board validation.
+UART implementation is pending. The decoder has no automatic frame timeout;
+interrupted frames require an explicit parser reset or MCU reset. Pin routing
+and NAND operations still require board validation.

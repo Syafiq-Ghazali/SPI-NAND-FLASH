@@ -12,7 +12,7 @@ void main
 )
 {
     Uint16_t octet;
-    SciRxStatus_t rxStatus;
+    Bool_t received;
 
     BRD_init();
     /* Failed initialization invalidates the handle; commands then report it. */
@@ -22,15 +22,13 @@ void main
 
     for (;;)
     {
-        rxStatus = DSCI_receive(&BRD_SCI_CONFIG, &octet);
-        if (rxStatus == SCI_RX_OK)
-        {
-            APP_IF_receive(octet, DSCI_timeUs(&BRD_SCI_CONFIG));
-        }
-        else if (rxStatus == SCI_RX_ERROR)
+        if (!DSCI_receive(&BRD_SCI_CONFIG, &octet, &received))
         {
             APP_IF_reset();
         }
-        APP_IF_poll(DSCI_timeUs(&BRD_SCI_CONFIG));
+        else if (received)
+        {
+            APP_IF_receive(octet);
+        }
     }
 }
