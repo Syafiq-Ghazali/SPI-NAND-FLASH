@@ -70,10 +70,12 @@
                                     <listOptionValue value="${C2000WARE_DLIB_ROOT}"/>
                                     <listOptionValue value="${CG_TOOL_ROOT}/include"/>
                                     <listOptionValue value="${PROJECT_ROOT}/ASW/MAIN"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/ASW/APP_IF"/>
                                     <listOptionValue value="${PROJECT_ROOT}/BRD"/>
                                     <listOptionValue value="${PROJECT_ROOT}/BSW/DGPIO"/>
                                     <listOptionValue value="${PROJECT_ROOT}/BSW/DMCU"/>
                                     <listOptionValue value="${PROJECT_ROOT}/BSW/DSPI"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/BSW/DSCI"/>
                                     <listOptionValue value="${PROJECT_ROOT}/MSW/W25N01GVSFIG"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.ADVICE__PERFORMANCE.6500017" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.ADVICE__PERFORMANCE" value="--advice:performance=all" valueType="string"/>
@@ -133,7 +135,7 @@
                         </toolChain>
                     </folderInfo>
                     <sourceEntries>
-                        <entry excluding="targetConfigs/TMS320F280039C_LaunchPad.ccxml|LIB/TIDriverLib/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry excluding="host|tests|targetConfigs/TMS320F280039C_LaunchPad.ccxml|LIB/TIDriverLib/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
                     </sourceEntries>
                 </configuration>
             </storageModule>

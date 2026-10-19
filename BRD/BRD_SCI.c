@@ -1,0 +1,15 @@
+#include "BRD_SCI.h"
+#include "BRD_GPIO.h"
+#include "DMCU.h"
+
+const SciConfig_t BRD_SCI_CONFIG =
+{
+    SCIA_BASE,
+    MCU_LSPCLK_FREQ,
+    115200uL,
+    CPUTIMER0_BASE,
+    (Uint16_t)(MCU_SYSCLK_FREQ / 1000000uL - 1u),
+    100000uL,
+    &BRD_GPIO_CONFIG[GPIO_INSTANCE_SCIA_RX],
+    &BRD_GPIO_CONFIG[GPIO_INSTANCE_SCIA_TX]
+};

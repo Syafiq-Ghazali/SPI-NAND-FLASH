@@ -1,24 +1,7 @@
-/*
-|===============================================================================
-|
-| File:         BRD_GPIO.h
-|
-| Project:      SPI_NAND
-|
-| Processor:    TI TMS320F28003x
-|
-| Description:  GPIO assignments for the SPI NAND interface.
-|
-|=============================================================================*/
-
 #ifndef BRD_GPIO_H
 #define BRD_GPIO_H
 
-/*=== INCLUDE FILES ==========================================================*/
-
 #include "DGPIO.h"
-
-/*=== #DEFINES ===============================================================*/
 
 /*
  * Default TMS320F280039C SPIA mapping. Update these four definitions if the
@@ -36,7 +19,10 @@
 #define BRD_GPIO_W25N01GVSFIG_CS_GPIO    (19u)
 #define BRD_GPIO_W25N01GVSFIG_CS         ((Uint32_t)GPIO_19_GPIO19)
 
-/*=== ENUMERATIONS ===========================================================*/
+#define BRD_GPIO_SCIA_RX_GPIO            (28u)
+#define BRD_GPIO_SCIA_RX                 ((Uint32_t)GPIO_28_SCIA_RX)
+#define BRD_GPIO_SCIA_TX_GPIO            (29u)
+#define BRD_GPIO_SCIA_TX                 ((Uint32_t)GPIO_29_SCIA_TX)
 
 typedef enum GpioInstance_t
 {
@@ -44,10 +30,10 @@ typedef enum GpioInstance_t
     GPIO_INSTANCE_SPIA_SOMI,
     GPIO_INSTANCE_SPIA_CLK,
     GPIO_INSTANCE_W25N01GVSFIG_CS,
+    GPIO_INSTANCE_SCIA_RX,
+    GPIO_INSTANCE_SCIA_TX,
     GPIO_INSTANCE_COUNT
 } GpioInstance_t;
-
-/*=== EXTERNAL VARIABLE DEFINITIONS ==========================================*/
 
 extern const GpioConfig_t BRD_GPIO_CONFIG[GPIO_INSTANCE_COUNT];
 

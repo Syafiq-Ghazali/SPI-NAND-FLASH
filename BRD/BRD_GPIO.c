@@ -1,21 +1,4 @@
-/*
-|===============================================================================
-|
-| File:         BRD_GPIO.c
-|
-| Project:      SPI_NAND
-|
-| Processor:    TI TMS320F28003x
-|
-| Description:  GPIO configuration for the SPI NAND interface.
-|
-|=============================================================================*/
-
-/*=== INCLUDE FILES ==========================================================*/
-
 #include "BRD_GPIO.h"
-
-/*=== GLOBAL DATA ============================================================*/
 
 const GpioConfig_t BRD_GPIO_CONFIG[GPIO_INSTANCE_COUNT] =
 {
@@ -62,7 +45,27 @@ const GpioConfig_t BRD_GPIO_CONFIG[GPIO_INSTANCE_COUNT] =
         GPIO_STATE_ON,
         FALSE,
         FALSE
+    },
+    [GPIO_INSTANCE_SCIA_RX] =
+    {
+        BRD_GPIO_SCIA_RX_GPIO,
+        BRD_GPIO_SCIA_RX,
+        GPIO_DIR_UNDEFINED,
+        GPIO_QUAL_ASYNC,
+        GPIO_PIN_TYPE_PULLUP,
+        GPIO_STATE_DONT_CARE,
+        FALSE,
+        FALSE
+    },
+    [GPIO_INSTANCE_SCIA_TX] =
+    {
+        BRD_GPIO_SCIA_TX_GPIO,
+        BRD_GPIO_SCIA_TX,
+        GPIO_DIR_UNDEFINED,
+        GPIO_QUAL_ASYNC,
+        GPIO_PIN_TYPE_STD,
+        GPIO_STATE_DONT_CARE,
+        FALSE,
+        FALSE
     }
 };
-
-/*=== End of File ============================================================*/

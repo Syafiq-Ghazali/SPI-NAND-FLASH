@@ -14,3 +14,6 @@ CPU1_RAM/
 # ignore .swp files
 *.swp
 
+__pycache__/
+*.pyc
+.venv/
