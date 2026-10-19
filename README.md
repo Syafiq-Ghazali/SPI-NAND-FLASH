@@ -1,63 +1,36 @@
-# W25N01GVSFIG SPI NAND
+# SPI NAND Flash
 
-Minimal TMS320F280039C firmware project for developing a Winbond
-W25N01GVSFIG SPI NAND driver.
+Winbond W25N01GVSFIG driver for the TI TMS320F280039C.
+Provides initialization, identification, page reads/programming, block erase,
+and ECC/bad-block status handling. Hardware validation is still required.
 
-## Layering
+The application currently initializes the board and idles; it does not initialize
+the NAND. A host command service and Python library/CLI are planned.
 
-- `BSW/DMCU`: MCU clock and interrupt initialization.
-- `BSW/DGPIO`: GPIO configuration and access.
-- `BSW/DSPI`: blocking, full-duplex SPI transactions.
-- `BRD`: concrete MCU, GPIO, SPI, and W25N01GVSFIG configuration.
-- `MSW/W25N01GVSFIG`: device-specific driver template.
-- `ASW/MAIN`: board startup and an idle application loop.
+## Build
 
-## Default Wiring
+Import the `SPI_NAND` project into TI Code Composer Studio with C2000Ware and
+the TI C2000 compiler installed. Build `CPU1_FLASH` and use the matching
+configuration in `targetConfigs/` to debug or flash.
 
-| Signal | MCU pin |
-| --- | --- |
-| SPIA SIMO | GPIO16 |
-| SPIA SOMI | GPIO17 |
-| SPIA CLK | GPIO18 |
-| NAND CS# | GPIO19 |
+The optional [Justfile](Justfile) uses CCS-generated build files. Adjust its
+local tool paths before using `just build` or `just flash` (requires UniFlash).
 
-Change the pin definitions in `BRD/BRD_GPIO.h` to match the target hardware.
-The SPI clock defaults to 10 MHz in `BRD/BRD_SPI.c`.
+## Hardware
 
-## Device Configuration
+Default SPIA wiring: SIMO GPIO16, SOMI GPIO17, CLK GPIO18, CS# GPIO19.
+Set pins in [BRD_GPIO.h](BRD/BRD_GPIO.h), SPI settings in
+[BRD_SPI.c](BRD/BRD_SPI.c), and NAND configuration in
+[BRD_W25N01GVSFIG.c](BRD/BRD_W25N01GVSFIG.c).
 
-`BRD/BRD_W25N01GVSFIG.c` owns the device instance and board configuration:
+## Integration
 
-- a bounded ready-poll count.
-- the SPI handle.
-- the chip-select GPIO.
+Peripheral drivers live in `BSW/`, board configuration in `BRD/`, the NAND
+driver in `MSW/`, and application code in `ASW/`.
+See [W25N01GVSFIG.h](MSW/W25N01GVSFIG/W25N01GVSFIG.h) for the API.
 
-The MSW driver provides initialization, JEDEC identification, page reads,
-page programming, block erasing, and factory bad-block checks. Initialization
-enables internal ECC and buffer-read mode. The board configuration explicitly
-chooses whether initialization removes the device's volatile block protection.
-
-SPI data buffers use `Uint16_t` elements because of the C2000 data model; only
-the low eight bits of each element are transferred.
-
-## Device Notes
-
-- 2,048 data bytes plus 64 spare bytes per page.
-- 64 pages per 128 KiB erase block.
-- 1,024 blocks and 65,536 pages.
-- JEDEC ID `EF AA 21`.
-- Internal ECC and factory bad-block handling are required parts of the design.
-
-## Driver Rules
-
-- `readPage` and `programPage` accept a page number and an offset within the
-  2,048-byte data area.
-- `programPage` requires 512-byte aligned sector data while internal ECC is
-  enabled and rejects attempts to change a programmed `0` bit back to `1`.
-- `eraseBlock` erases one complete 128 KiB block.
-- A corrected read returns `W25N01GVSFIG_STATUS_ECC_CORRECTED`; its data is
-  valid. Uncorrectable data is not copied to the caller.
-- Program and erase operations reject blocks with a non-`0xFF` spare-area bad
-  block marker.
-- The application must program pages in ascending order within a block and
-  must not exceed four partial program operations per page between erases.
+- Buffers use `Uint16_t` elements; only the low eight bits are transferred.
+- Programs require 512-byte aligned offsets and lengths. Callers must program
+  pages in ascending order and limit each page to four programs between erases.
+- `ECC_CORRECTED` means valid data; uncorrectable data is not copied to the caller.
+- Bad-block replacement and power-loss recovery remain application responsibilities.
