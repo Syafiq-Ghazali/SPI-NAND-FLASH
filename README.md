@@ -7,8 +7,8 @@ and ECC/bad-block status handling. Hardware validation is still required.
 The application initializes the board and NAND and includes a five-command decoder
 in one module. UART is the primary host connection, but its receive and send
 functions are currently stubs: no serial communication takes place. The
-[Python application folder](host/README.md) contains guidance; the client library
-and CLI are not yet implemented.
+[Python application folder](host/README.md) provides a reusable client library
+and CLI for the five commands. Real communication requires the UART driver.
 
 ## Build
 
@@ -42,8 +42,9 @@ The [UART interface](BSW/DSCI/DSCI.h) currently provides:
 `INFO`, `READ_PAGE`, `PROGRAM_PAGE`, `ERASE_BLOCK`, and `IS_BAD_BLOCK` use physical
 addresses. [APP_IF](ASW/APP_IF/APP_IF.c) handles framing, CRC checks, dispatch,
 and responses. See [the protocol](ASW/APP_IF/PROTOCOL.md) for payloads, statuses,
-and recovery. Python will own file handling, page splitting, bad-block allocation,
-and read-back verification.
+and recovery. The Python client supports physical page/block operations and
+single-page binary files. Multi-page file handling, bad-block allocation, and
+read-back verification helpers remain to be implemented.
 
 ## Integration
 
@@ -68,6 +69,7 @@ python -m unittest discover -s tests -v
 Tests compile the C application against mocked NAND operations using a native
 C compiler (GCC/Clang or Visual Studio C tools). They cover frame integrity,
 dispatch, payload bounds, driver results, and interrupted-message recovery.
-UART implementation is pending. The decoder has no automatic frame timeout;
-interrupted frames require an explicit parser reset or MCU reset. Pin routing
-and NAND operations still require board validation.
+See [host validation](host/README.md#development-and-validation) for Python client
+and Python-to-C decoder tests. UART implementation is pending. The decoder has
+no automatic frame timeout; interrupted frames require an explicit parser reset
+or MCU reset. Pin routing and NAND operations still require board validation.

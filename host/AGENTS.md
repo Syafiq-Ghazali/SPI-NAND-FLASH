@@ -22,8 +22,9 @@ Follow the repository's [AGENTS.md](../AGENTS.md).
 - The shared wire contract is [PROTOCOL.md](../ASW/APP_IF/PROTOCOL.md).
   Firmware implementation is the source of truth; update both sides and the
   protocol document together when changing it.
-- This folder currently contains documentation only. The Python library and CLI
-  are not implemented. Firmware compilation and mocked command tests do not
+- This folder contains a synchronous Python library and thin CLI for the five
+  commands. Multi-page transfers, bad-block allocation, and verification helpers
+  are deferred. Firmware compilation and mocked command tests do not
   establish that the physical serial/SPI connection works.
 
 ## Python implementation direction
@@ -54,6 +55,13 @@ Run the firmware decoder tests from the repository root:
 python -m unittest discover -s tests -v
 ```
 
-These compile the actual C application with mocked NAND operations and require
-a native C compiler (GCC/Clang or Visual Studio C tools). Add client tests when
-Python code is introduced. Test hardware separately; report unavailable checks.
+After installing the host package, run the client tests from the repository root:
+
+```text
+python -m unittest discover -s host/tests -v
+```
+
+Firmware tests and host interoperability tests compile the actual C application
+with mocked NAND operations and require a native C compiler (GCC/Clang or Visual
+Studio C tools). Other host tests use simulated serial responses. Test hardware
+separately; report unavailable checks.

@@ -17,3 +17,6 @@ CPU1_RAM/
 __pycache__/
 *.pyc
 .venv/
+*.egg-info/
+/host/build/
+/host/dist/
